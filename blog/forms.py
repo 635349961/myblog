@@ -19,3 +19,4 @@ class ImgForm(forms.ModelForm):
 		model = Img
 		fields = ['intro']
 		labels = {'intro': '介绍'}
+

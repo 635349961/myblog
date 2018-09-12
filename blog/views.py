@@ -34,7 +34,7 @@ def uploadimg(request):
 		if form.is_valid():
 			new_img = Img(pic=request.FILES.get('pic'))
 			new_img.owner = request.user
-			new_img.intro = request.POST.get('intro')
+			new_img.intro = request.POST.get('intro','暂时没有介绍')
 			new_img.save()
 
 			return HttpResponseRedirect(reverse('blog:show_picture'))
