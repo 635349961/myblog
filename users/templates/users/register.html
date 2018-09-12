@@ -1,0 +1,17 @@
+{% extends 'blog/base.html' %}
+
+{% block header %}
+	<h3>注册</h3>
+{% endblock header %}
+
+
+{% block content %}
+	<form method="post" action="{% url 'users:register' %}">
+		{% csrf_token %}
+		{{ form.as_p }}
+
+		<button name="submit">注册</button>
+		<input type="hidden" name="next" value="{% url 'blog:mainpage' %}"/>
+	</form>
+	
+{% endblock content %}	

@@ -1,0 +1,27 @@
+{% extends 'blog/base.html' %}
+
+{% block header %}
+	<h2 class="text-primary">图片</h2>
+{% endblock header %}
+
+{% block content %}
+	<div class="row">
+		{% for item in imgs %}
+			<div class="col-sm-6 col-md-3">
+				<div class="thumbnail">
+					<img src="{{ item.pic.url }}">
+					<div class="caption">
+						<p>{{ item.intro }}</p>
+						<p>{{ item.owner }}</p>
+						<p>{{ item.date_added }}</p>
+					</div>
+				</div>
+			</div>
+		{% empty %}
+			&nbsp;&nbsp;&nbsp;&nbsp;<b style="color: #D3D3D3">暂时还未上传图片</b>
+		{% endfor %}
+	</div>
+	<br />
+	<a class="btn btn-primary" href="{% url 'blog:uploadimg' %}">上传</a>
+
+{% endblock content %}

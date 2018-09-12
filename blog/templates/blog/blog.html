@@ -1,0 +1,20 @@
+{% extends 'blog/base.html' %}
+
+{% block header %}
+	<h2 class="text-primary">内容</h2>
+{% endblock header %}
+
+{% block content %}
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3>{{ blog.title }}<br /><small>{{ blog.owner }}</small></h3>
+
+		</div>
+		<div class="panel-body">
+			<p>{{ blog.text }}</p>
+		</div>
+		<div class="panel-footer">
+			<p>{{ blog.date_added }}</p>
+		</div>
+	</div>
+{% endblock content %}

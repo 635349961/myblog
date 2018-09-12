@@ -1,0 +1,18 @@
+{% extends 'blog/base.html'%}
+
+{% block header %}
+	<h2 class="text-primary">关于我</h2>
+{% endblock header%}
+
+{% block content %}
+	{% if aboutmes %}
+		<p>{{ aboutmes.0.text }}</p>
+	{% else %}
+		 <p style="color: #D3D3D3">这家伙很高冷，什么都没有留下</p>
+	{% endif %}
+
+
+	
+	<a class="btn btn-primary btn-sm" href="{% url 'blog:edit_aboutme' %}">编辑</a>
+	
+{% endblock content%}
