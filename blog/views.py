@@ -27,15 +27,19 @@ def show_picture(request):
 	return render(request, 'blog/show_picture.html', context)
 
 def uploadimg(request):
-	if request.method == 'POST':
-		new_img = Img(pic=request.FILES.get('pic'), intro=request.FILES.get('pic').name)
-		new_img.owner = request.user
-		
-		new_img.save()
+	if request.method != 'POST':
+		form = ImgForm()
+	else:
+		form = ImgForm(data=request.POST)
+		if form.is_valid():
+			new_img = Img(pic=request.FILES.get('pic'))
+			new_img.owner = request.user
+			new_img.intro = request.POST.get('intro')
+			new_img.save()
 
-		return HttpResponseRedirect(reverse('blog:show_picture'))
-
-	return render(request, 'blog/uploadimg.html')
+			return HttpResponseRedirect(reverse('blog:show_picture'))
+	context = {'form': form}
+	return render(request, 'blog/uploadimg.html', context)
 
 def aboutme(request):
 	aboutmes = Aboutme.objects.filter(owner=request.user).order_by('-date_added')

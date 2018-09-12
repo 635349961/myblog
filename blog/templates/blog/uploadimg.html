@@ -9,6 +9,8 @@
 		{% csrf_token %}
 		<input type="file" name="pic">
 		<br />
+		{{ form.as_p }}
+		<br />
 		<button type="submit">上传</button>
 	</form>
 {% endblock content %}
