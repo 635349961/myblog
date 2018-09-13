@@ -72,3 +72,13 @@ def writeblog(request):
 			return HttpResponseRedirect(reverse('blog:index'))
 	context = {'form': form}
 	return render(request, 'blog/writeblog.html', context)
+
+def delblog(request,blog_id):
+	del_blog = Blogcontent.objects.filter(id=blog_id)
+	del_blog.delete()
+	return HttpResponseRedirect(reverse('blog:index'))
+
+def delpic(request,item_id):
+	del_pic = Img.objects.filter(id=item_id)
+	del_pic.delete()
+	return HttpResponseRedirect(reverse('blog:show_picture'))

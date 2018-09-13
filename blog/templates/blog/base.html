@@ -40,7 +40,11 @@
 
 
 	<div class="container">
-		<p style="font-family:'微软雅黑'，'黑体'; font-size:24px;"><a href="{% url 'blog:mainpage'%}">{{ user.username }}的博客</a></p>
+		{% if user.is_authenticated %}
+			<p style="font-family:'微软雅黑'，'黑体'; font-size:24px;"><a href="{% url 'blog:mainpage'%}">{{ user.username }}的博客</a></p>
+		{% else %}
+			<p style="font-family:'微软雅黑'，'黑体'; font-size:24px;"><a href="{% url 'blog:mainpage'%}">个人博客</a></p>
+		{% endif %}
 		<ol class="breadcrumb">
 			<li><a href="{% url 'blog:mainpage' %}">首页</a></li>
 			<li><a href="{% url 'blog:index' %}">博文目录</a></li>

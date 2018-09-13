@@ -15,6 +15,7 @@
 						<p>{{ item.owner }}</p>
 						<p>{{ item.date_added }}</p>
 					</div>
+					<a href="{% url 'blog:delpic' item.id %}">删除</a>
 				</div>
 			</div>
 		{% empty %}
