@@ -8,7 +8,9 @@
 	<ul class="list-group">
 		{% for blog in blogs %}
 			<li class="list-group-item">
-				<strong>标题：</strong><a href="{% url 'blog:blog' blog.id %}">{{ blog.title }}</a>&nbsp;&nbsp;&nbsp;<strong>发布人：</strong>{{ blog.owner }}<a href="{% url 'blog:delblog' blog.id %}" class="pull-right">删除</a>
+				<strong>标题：</strong><a href="{% url 'blog:blog' blog.id %}">{{ blog.title }}</a>&nbsp;&nbsp;&nbsp;<strong>发布人：</strong>{{ blog.owner }}
+				
+					<a id="del" href="{% url 'blog:delblog' blog.id %}" class="pull-right">删除</a>
 			</li>
 		{% empty %}
 			<p>暂时还没有内容</p>

@@ -1,0 +1,16 @@
+{% extends 'blog/base.html' %}
+
+{% block header %}
+	<p style="color: #980000">请不要删除别人的内容哦</p>
+{% endblock header %}
+
+
+{% block content %}
+	页面将在3秒内返回
+
+
+	<script type="text/javascript">
+		onload=function(){ setTimeout(go, 3000); };
+		function go(){ location.href="{% url 'blog:index' %}"; }
+	</script>
+{% endblock content %}

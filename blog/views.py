@@ -3,6 +3,7 @@ from blog.models import Blogcontent, Aboutme, Img
 from .forms import BlogcontentForm, AboutmeForm, ImgForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def mainpage(request):
@@ -26,6 +27,7 @@ def show_picture(request):
 	context = {'imgs': imgs}
 	return render(request, 'blog/show_picture.html', context)
 
+@login_required
 def uploadimg(request):
 	if request.method != 'POST':
 		form = ImgForm()
@@ -41,6 +43,7 @@ def uploadimg(request):
 	context = {'form': form}
 	return render(request, 'blog/uploadimg.html', context)
 
+@login_required
 def aboutme(request):
 	aboutmes = Aboutme.objects.filter(owner=request.user).order_by('-date_added')
 	context = {'aboutmes': aboutmes}
@@ -60,6 +63,7 @@ def edit_aboutme(request):
 	context = {'form': form}
 	return render(request, 'blog/edit_aboutme.html', context)
 
+@login_required
 def writeblog(request):
 	if request.method != 'POST':
 		form = BlogcontentForm()
@@ -74,11 +78,17 @@ def writeblog(request):
 	return render(request, 'blog/writeblog.html', context)
 
 def delblog(request,blog_id):
-	del_blog = Blogcontent.objects.filter(id=blog_id)
-	del_blog.delete()
-	return HttpResponseRedirect(reverse('blog:index'))
+	del_blog = Blogcontent.objects.get(id=blog_id)
+	if del_blog.owner != request.user:
+		return render(request, 'blog/nodel.html')
+	else:
+		del_blog.delete()
+		return HttpResponseRedirect(reverse('blog:index'))
 
 def delpic(request,item_id):
-	del_pic = Img.objects.filter(id=item_id)
-	del_pic.delete()
-	return HttpResponseRedirect(reverse('blog:show_picture'))
+	del_pic = Img.objects.get(id=item_id)
+	if del_pic.owner != request.user:
+		return render(request, 'blog/nodel.html')
+	else:
+		del_pic.delete()
+		return HttpResponseRedirect(reverse('blog:show_picture'))
