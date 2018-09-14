@@ -4,6 +4,7 @@ from .forms import BlogcontentForm, AboutmeForm, ImgForm
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.db.models.base import ObjectDoesNotExist
 
 # Create your views here.
 def mainpage(request):
@@ -49,16 +50,29 @@ def aboutme(request):
 	context = {'aboutmes': aboutmes}
 	return render(request, 'blog/aboutme.html', context)
 
+@login_required
 def edit_aboutme(request):
 	if request.method != 'POST':
-		form = AboutmeForm()
+		try:
+			aboutme = Aboutme.objects.get(owner=request.user)
+		except ObjectDoesNotExist:
+			form = AboutmeForm()
+		else:
+			form = AboutmeForm(instance=aboutme)
 	else:
-		form = AboutmeForm(data=request.POST)
-		if form.is_valid():
-			new_aboutme = form.save(commit=False)
-			new_aboutme.owner = request.user
-			new_aboutme.save()
-
+		try:
+			aboutme = Aboutme.objects.get(owner=request.user)
+		except ObjectDoesNotExist:
+			form = AboutmeForm(data=request.POST)
+			if form.is_valid:
+				new_aboutme = form.save(commit=False)
+				new_aboutme.owner = request.user
+				new_aboutme.save()
+			return HttpResponseRedirect(reverse('blog:aboutme'))
+		else:
+			form = AboutmeForm(instance=aboutme,data=request.POST)
+			if form.is_valid():
+				form.save()
 			return HttpResponseRedirect(reverse('blog:aboutme'))
 	context = {'form': form}
 	return render(request, 'blog/edit_aboutme.html', context)
